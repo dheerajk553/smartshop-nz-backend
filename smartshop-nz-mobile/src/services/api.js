@@ -1,4 +1,4 @@
-const BASE_URL = 'http://YOUR_PC_IP:3000/v1';
+const BASE_URL = 'http://10.0.0.22:3000/v1';
 let apiBase = BASE_URL; // change for emulator (10.0.2.2) or device
 
 async function request(path, options = {}) {
