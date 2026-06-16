@@ -1,4 +1,5 @@
-let apiBase = 'http://localhost:3000'; // change for emulator (10.0.2.2) or device
+const BASE_URL = 'http://YOUR_PC_IP:3000/v1';
+let apiBase = BASE_URL; // change for emulator (10.0.2.2) or device
 
 async function request(path, options = {}) {
   const res = await fetch(`${apiBase}${path}`, options);
