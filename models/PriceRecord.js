@@ -8,7 +8,7 @@ const priceRecordSchema = new mongoose.Schema({
   },
   store: { 
     type: String, 
-    enum: ['paknsave', 'countdown', 'newworld'], 
+    enum: ['paknsave', 'countdown', 'newworld', 'woolworths'], 
     required: true 
   },
   price:    { type: Number, required: true },
