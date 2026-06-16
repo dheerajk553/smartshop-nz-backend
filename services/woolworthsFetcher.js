@@ -1,8 +1,6 @@
 const https = require('https');
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-// Direct schema define karo — file import mat karo
 const priceRecordSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
   store: { type: String, enum: ['paknsave', 'countdown', 'newworld', 'woolworths'], required: true },
@@ -19,7 +17,7 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
 const PriceRecord = mongoose.models.PriceRecord || mongoose.model('PriceRecord', priceRecordSchema);
 
-async function fetchWoolworths(query) {
+async function fetchAndSaveWoolworths(query) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'www.woolworths.co.nz',
@@ -68,14 +66,4 @@ async function fetchWoolworths(query) {
   });
 }
 
-mongoose.connect(process.env.MONGO_URI, { family: 4 })
-  .then(async () => {
-    console.log('✅ MongoDB connected');
-    for (const q of ['milk', 'bread', 'cheese', 'eggs', 'butter']) {
-      console.log(`\n🔍 ${q}`);
-      await fetchWoolworths(q);
-    }
-    console.log('\n🎉 Done!');
-    process.exit(0);
-  })
-  .catch(err => { console.error('❌', err.message); process.exit(1); });
+module.exports = { fetchAndSaveWoolworths };

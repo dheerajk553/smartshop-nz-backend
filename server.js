@@ -13,6 +13,9 @@ app.use(express.json());
 // Routes
 app.use('/v1/products', require('./routes/productRoutes'));
 
+// Scheduler
+require('./services/scheduler');
+
 // Health check
 app.get('/', (req, res) => {
   res.json({ message: 'SmartShop NZ API v1 running ✅' });
