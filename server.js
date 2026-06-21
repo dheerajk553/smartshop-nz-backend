@@ -26,6 +26,7 @@ app.use('/v1/shopping-list', require('./routes/shoppingListRoutes'));
 app.use('/v1/auth', require('./routes/authRoutes'));
 app.use('/v1/lists', require('./routes/shoppingListRoutes'));
 app.use('/v1/alerts', require('./routes/dealAlertRoutes')); // Route file will be added later
+app.use('/v1/zones', require('./routes/zoneRoutes'));
 
 // Scheduler
 require('./services/scheduler');
