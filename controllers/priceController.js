@@ -1,7 +1,8 @@
 const Product = require('../models/Product');
 const PriceRepository = require('../repositories/PriceRepository');
+const { checkAndNotify } = require('../services/dealAlertService');
 
-// GET /v1/products - sab products
+// GET /v1/products - all products
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -11,7 +12,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// GET /v1/products/:id/prices - price comparison (sabhi stores)
+// GET /v1/products/:id/prices - price comparison (all stores)
 exports.getPriceComparison = async (req, res) => {
   try {
     const prices = await PriceRepository.getLatestByStore(req.params.id);
@@ -32,7 +33,7 @@ exports.getPriceHistory = async (req, res) => {
   }
 };
 
-// POST /v1/products - naya product add karo
+// POST /v1/products - add a new product
 exports.addProduct = async (req, res) => {
   try {
     const product = new Product(req.body);
@@ -43,7 +44,7 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-// POST /v1/products/:id/prices - naya price record add karo
+// POST /v1/products/:id/prices - add a new price record
 exports.addPrice = async (req, res) => {
   try {
     const record = await PriceRepository.save({
@@ -51,6 +52,9 @@ exports.addPrice = async (req, res) => {
       ...req.body
     });
     res.status(201).json(record);
+
+    // Check if any user's deal alert matches this new price
+    checkAndNotify(req.params.id, record.price);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

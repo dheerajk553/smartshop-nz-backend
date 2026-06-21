@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const priceRecordSchema = new mongoose.Schema({
+const PriceRecordSchema = new mongoose.Schema({
   productId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Product', 
@@ -8,11 +8,17 @@ const priceRecordSchema = new mongoose.Schema({
   },
   store: { 
     type: String, 
-    enum: ['paknsave', 'countdown', 'newworld', 'woolworths'], 
+    required: true,
+    enum: ['paknsave', 'newworld', 'woolworths']
+  },
+  price: { 
+    type: Number, 
     required: true 
   },
-  price:    { type: Number, required: true },
-  date:     { type: Date, default: Date.now },
+  date: { 
+    type: Date, 
+    default: Date.now 
+  }
 });
 
-module.exports = mongoose.model('PriceRecord', priceRecordSchema);
+module.exports = mongoose.model('PriceRecord', PriceRecordSchema);
